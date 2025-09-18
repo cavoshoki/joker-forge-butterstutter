@@ -52,7 +52,7 @@ export interface UserConfig {
 export interface UserVariable {
   id: string;
   name: string;
-  type?: "number" | "suit" | "rank" | "pokerhand";
+  type?: "number" | "suit" | "rank" | "pokerhand" | "text" | "joker";
   description?: string;
   initialValue?: number;
   initialSuit?: "Spades" | "Hearts" | "Diamonds" | "Clubs";
@@ -84,6 +84,8 @@ export interface UserVariable {
     | "Straight Flush"
     | "Flush House"
     | "Flush Five";
+  initialText?: string;
+  initialJoker?: string;
 }
 
 export interface JokerData {

@@ -1850,7 +1850,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
     applicableTriggers: [...GENERIC_TRIGGERS],
     params: [
       {
-        id: "variable_name",
+        id: "suit",
         type: "select",
         label: "Suit Variable",
         options: [], // Will be populated dynamically with suit variables
@@ -1874,6 +1874,63 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
           parameter: "change_type",
           values: ["specific"],
         },
+      },
+    ],
+    category: "Variables",
+  },
+  {
+    id: "change_text_variable",
+    label: "Change Text Variable",
+    description:
+      "Change the value of a text variable",
+    applicableTriggers: [...GENERIC_TRIGGERS],
+    params: [
+      {
+        id: "text",
+        type: "select",
+        label: "Text Variable",
+        options: [], // Will be populated dynamically with text variables
+      },
+      {
+        id: "change_text",
+        type: "text",
+        label: "Change Text",
+        default: "",
+      },
+    ],
+    category: "Variables",
+  },
+    {
+    id: "change_joker_variable",
+    label: "Change Joker Variable",
+    description:
+      "Change the value of a Joker variable",
+    applicableTriggers: [...GENERIC_TRIGGERS],
+    params: [
+      {
+        id: "joker",
+        type: "select",
+        label: "Joker Variable",
+        options: [], // Will be populated dynamically with joker variables
+      },
+      {
+        id: "joker_context",
+        type: "select",
+        label: "Change to Type",
+        options: [
+          { value: "specific", label: "Specific Joker Key" }, // Will be further populated with trigger/condition context
+        ],
+        default: "",
+      },
+      {
+        id: "change_joker",
+        type: "text",
+        label: "Change Text",
+        default: "",
+        showWhen: {
+          parameter: "type",
+          values: ["specific"]
+        }
       },
     ],
     category: "Variables",

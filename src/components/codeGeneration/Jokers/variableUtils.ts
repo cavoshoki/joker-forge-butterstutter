@@ -347,6 +347,18 @@ export const getPokerHandVariables = (
   return (item.userVariables || []).filter((v) => v.type === "pokerhand");
 };
 
+export const getTextVariables = (
+  item: JokerData | EnhancementData
+): UserVariable[] => {
+  return (item.userVariables || []).filter((v) => v.type === "text");
+};
+
+export const getJokerVariables = (
+  item: JokerData | EnhancementData
+): UserVariable[] => {
+  return (item.userVariables || []).filter((v) => v.type === "joker");
+};
+
 export const parsePokerHandVariable = (
   value: unknown,
   item?: JokerData | EnhancementData
@@ -378,6 +390,32 @@ export const addPokerHandVariablesToOptions = (
   const variableOptions = pokerHandVariables.map((variable) => ({
     value: variable.name,
     label: `${variable.name} (poker hand variable)`,
+  }));
+
+  return [...baseOptions, ...variableOptions];
+};
+
+export const addTextVariablesToOptions = (
+  baseOptions: Array<{ value: string; label: string }>,
+  item: JokerData | EnhancementData
+): Array<{ value: string; label: string }> => {
+  const textVariables = getTextVariables(item);
+  const variableOptions = textVariables.map((variable) => ({
+    value: variable.name,
+    label: `${variable.name} (text variable)`,
+  }));
+
+  return [...baseOptions, ...variableOptions];
+};
+
+export const addJokerVariablesToOptions = (
+  baseOptions: Array<{ value: string; label: string }>,
+  item: JokerData | EnhancementData
+): Array<{ value: string; label: string }> => {
+  const jokerVariables = getJokerVariables(item);
+  const variableOptions = jokerVariables.map((variable) => ({
+    value: variable.name,
+    label: `${variable.name} (joker variable)`,
   }));
 
   return [...baseOptions, ...variableOptions];

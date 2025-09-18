@@ -33,6 +33,8 @@ const VariableDisplay = (variable: UserVariable) => {
   if (variable.type === "rank") return variable.initialRank || "Ace";
   if (variable.type === "pokerhand")
     return variable.initialPokerHand || "High Card";
+  if (variable.type === "text") return variable.initialText || "";
+  if (variable.type === "joker") return variable.initialJoker || "";
   return variable.initialValue?.toString() || "0";
 };
 
@@ -111,6 +113,8 @@ const ShowcaseModal: React.FC<ShowcaseModalProps> = ({
     if (variable.type === "rank") return variable.initialRank || "Ace";
     if (variable.type === "pokerhand")
       return variable.initialPokerHand || "High Card";
+    if (variable.type === "text") return variable.initialText || "";
+    if (variable.type === "joker") return variable.initialJoker || "";
     return variable.initialValue?.toString() || "0";
   };
   const VariableValues = allVariables.map(VariableDisplay);

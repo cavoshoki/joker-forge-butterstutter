@@ -16,6 +16,8 @@ import {
   addRankVariablesToOptions,
   getAllVariables,
   addPokerHandVariablesToOptions,
+  addTextVariablesToOptions,
+  addJokerVariablesToOptions,
 } from "../codeGeneration/Jokers/variableUtils";
 
 import { getTriggerById } from "../data/Jokers/Triggers";
@@ -498,6 +500,14 @@ const ParameterField: React.FC<ParameterFieldProps> = ({
         options = addPokerHandVariablesToOptions(options, joker);
       }
 
+      if (param.id === "text"  && joker) {
+        options = addTextVariablesToOptions(options, joker);
+      }
+
+      if (param.id === "joker"  && joker) {
+        options = addJokerVariablesToOptions(options, joker);
+      }
+
       if (param.id === "variable_name" && joker && param.label) {
         if (param.label.includes("Suit")) {
           const suitVariables =
@@ -520,7 +530,24 @@ const ParameterField: React.FC<ParameterFieldProps> = ({
             value: variable.name,
             label: variable.name,
           }));
-        }
+        } else if (param.label.includes("Text")) {
+          const textVariables =
+            joker.userVariables?.filter((v) => v.type === "text") || [];
+          options = textVariables.map((variable) => ({
+            value: variable.name,
+            label: variable.name,
+          }));
+        } else if (param.label.includes("Joker")) {
+          const jokerVariables =
+            joker.userVariables?.filter((v) => v.type === "joker") || [];
+          options = jokerVariables.map((variable) => ({
+            value: variable.name,
+            label: variable.name,
+          }));
+      }}
+
+      if (param.id === "joker_context") {
+        // Develop joker_context additions to list of options later
       }
 
       return (
