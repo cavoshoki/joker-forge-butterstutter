@@ -255,6 +255,12 @@ export const getSuitVariables = (
   return (item.userVariables || []).filter((v) => v.type === "suit");
 };
 
+export const getNumberVariables = (
+  item: JokerData | EnhancementData
+): UserVariable[] => {
+  return (item.userVariables || []).filter((v) => v.type === "number");
+};
+
 export const getRankVariables = (
   item: JokerData | EnhancementData
 ): UserVariable[] => {
@@ -305,6 +311,19 @@ export const parseRankVariable = (
   return {
     isRankVariable: false,
   };
+};
+
+export const addNumberVariablesToOptions = (
+  baseOptions: Array<{ value: string; label: string }>,
+  item: JokerData | EnhancementData
+): Array<{ value: string; label: string }> => {
+  const suitVariables = getNumberVariables(item);
+  const variableOptions = suitVariables.map((variable) => ({
+    value: variable.name,
+    label: `${variable.name} (number variable)`,
+  }));
+
+  return [...baseOptions, ...variableOptions];
 };
 
 export const addSuitVariablesToOptions = (

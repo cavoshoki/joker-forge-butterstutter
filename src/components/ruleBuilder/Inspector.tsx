@@ -18,6 +18,7 @@ import {
   addPokerHandVariablesToOptions,
   addTextVariablesToOptions,
   addJokerVariablesToOptions,
+  addNumberVariablesToOptions,
 } from "../codeGeneration/Jokers/variableUtils";
 
 import { getTriggerById } from "../data/Jokers/Triggers";
@@ -99,6 +100,7 @@ interface InspectorProps {
 }
 
 interface ParameterFieldProps {
+  rule: Rule;
   param: ConditionParameter | EffectParameter;
   value: unknown;
   onChange: (value: unknown) => void;
@@ -356,6 +358,7 @@ function hasShowWhen(param: ConditionParameter | EffectParameter): param is (
 }
 
 const ParameterField: React.FC<ParameterFieldProps> = ({
+  rule,
   param,
   value,
   onChange,
@@ -488,6 +491,10 @@ const ParameterField: React.FC<ParameterFieldProps> = ({
         }));
       }
 
+      if (param.id === "num_var" && joker) {
+        options = addNumberVariablesToOptions(options, joker);
+      }
+
       if (param.id === "specific_suit" && joker) {
         options = addSuitVariablesToOptions(options, joker);
       }
@@ -547,7 +554,10 @@ const ParameterField: React.FC<ParameterFieldProps> = ({
       }}
 
       if (param.id === "joker_context") {
-        // Develop joker_context additions to list of options later
+        if (rule.trigger == "joker_evaluated"){
+          options.push({value: "evaled_joker", label: "Evaluated Joker"})
+        }
+        // Will add more when joker targeting triggers are added
       }
 
       return (
@@ -1235,6 +1245,7 @@ const Inspector: React.FC<InspectorProps> = ({
                 className="bg-black-darker border border-black-lighter rounded-lg p-3"
               >
                 <ParameterField
+                  rule={selectedRule}
                   param={param}
                   value={selectedCondition.params[param.id]}
                   onChange={(value) => {
@@ -1605,6 +1616,7 @@ const Inspector: React.FC<InspectorProps> = ({
                 className="bg-black-darker border border-black-lighter rounded-lg p-3"
               >
                 <ParameterField
+                  rule={selectedRule}
                   param={param}
                   value={selectedEffect.params[param.id]}
                   onChange={(value) => {

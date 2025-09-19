@@ -534,10 +534,10 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
     applicableTriggers: [...GENERIC_TRIGGERS],
     params: [
       {
-        id: "variable_name",
-        type: "text",
+        id: "num_var",
+        type: "select",
         label: "Variable Name",
-        default: "var1",
+        options: []
       },
       {
         id: "operation",
@@ -1142,10 +1142,10 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
         default: 0,
       },
       {
-        id: "variable_name",
-        type: "text",
+        id: "num_var",
+        type: "select",
         label: "Variable to Add Sell Value To",
-        default: "var1",
+        options: []
       },
     ],
     category: "Jokers",
@@ -1918,19 +1918,48 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
         type: "select",
         label: "Change to Type",
         options: [
-          { value: "specific", label: "Specific Joker Key" }, // Will be further populated with trigger/condition context
+          { value: "specific", label: "Specific Joker Key" },
+          { value: "index", label: "Index of Joker" },
+          { value: "position", label: "Position of Joker" },
+          // Will be further populated with triggers that target jokers context
         ],
         default: "",
       },
       {
         id: "change_joker",
         type: "text",
-        label: "Change Text",
+        label: "Joker Key",
         default: "",
         showWhen: {
-          parameter: "type",
+          parameter: "joker_context",
           values: ["specific"]
         }
+      },
+      {
+        id: "joker_index",
+        type: "number",
+        label: "Enter Index",
+        default: "1",
+        showWhen: {
+          parameter: "joker_context",
+          values: ["index"]
+        }
+      },
+      {
+        id: "joker_position",
+        type: "select",
+        label: "Position",
+        default: "first",
+        options: [
+          { value: "first", label: "First Joker" },
+          { value: "last", label: "Last Joker" },
+          { value: "left", label: "Left of This Joker" },
+          { value: "right", label: "Right of This Joker" },
+        ],
+        showWhen: {
+          parameter: "joker_context",
+          values: ["position"]
+        },
       },
     ],
     category: "Variables",
@@ -1977,7 +2006,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
     applicableTriggers: [...GENERIC_TRIGGERS],
     params: [
       {
-        id: "variable_name",
+        id: "rank",
         type: "select",
         label: "Rank Variable",
         options: [], // Will be populated dynamically with rank variables
@@ -2013,7 +2042,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
     applicableTriggers: [...GENERIC_TRIGGERS],
     params: [
       {
-        id: "variable_name",
+        id: "poker_hand",
         type: "select",
         label: "Poker Hand Variable",
         options: [], // Will be populated dynamically with poker hand variables
