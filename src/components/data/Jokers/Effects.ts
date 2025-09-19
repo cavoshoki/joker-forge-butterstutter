@@ -924,6 +924,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
         options: [
           { value: "random", label: "Random Joker" },
           { value: "specific", label: "Specific Joker" },
+          { value: "variable", label: "Joker Variable"},
         ],
         default: "random",
       },
@@ -949,6 +950,16 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
         showWhen: {
           parameter: "joker_type",
           values: ["specific"],
+        },
+      },
+      {
+        id: "joker_var",
+        type: "select",
+        label: "Joker Variable",
+        options: [],
+        showWhen: {
+          parameter: "joker_type",
+          values: ["variable"],
         },
       },
       {
@@ -1003,6 +1014,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
           { value: "random", label: "Random Joker" },
           { value: "specific", label: "Specific Joker" },
           { value: "position", label: "By Position" },
+          { value: "variable", label: "Joker Variable" },
         ],
         default: "random",
       },
@@ -1041,6 +1053,16 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
         showWhen: {
           parameter: "position",
           values: ["specific"],
+        },
+      },
+      {
+        id: "joker_var",
+        type: "select",
+        label: "Joker Variable",
+        options: [],
+        showWhen: {
+          parameter: "selection_method",
+          values: ["variable"],
         },
       },
       {
@@ -1085,6 +1107,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
           { value: "random", label: "Random Joker" },
           { value: "specific", label: "Specific Joker" },
           { value: "position", label: "By Position" },
+          { value: "variable", label: "Joker Variable" },
         ],
         default: "random",
       },
@@ -1096,6 +1119,16 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
         showWhen: {
           parameter: "selection_method",
           values: ["specific"],
+        },
+      },
+      {
+        id: "joker_var",
+        type: "select",
+        label: "Joker Variable",
+        options: [],
+        showWhen: {
+          parameter: "selection_method",
+          values: ["variable"],
         },
       },
       {
@@ -1157,10 +1190,34 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
     applicableTriggers: [...GENERIC_TRIGGERS],
     params: [
       {
+        id: "joker_type",
+        type: "select",
+        label: "Joker",
+        options: [
+          {value: "specific", label: "Specific Joker"},
+          {value: "variable", label: "Joker Variable"},
+        ],
+        default: "specific",
+      },
+      {
         id: "joker_key",
         type: "text",
         label: "Joker Key ( [modprefix]_joker )",
         default: "joker",
+        showWhen: {
+          parameter: "joker_type",
+          values: ["specific"],
+        },
+      },
+      {
+        id: "joker_var",
+        type: "select",
+        label: "Joker Variable",
+        options: [],
+        showWhen: {
+          parameter: "joker_type",
+          values: ["variable"],
+        },
       },
       {
         id: "discover",
@@ -1172,6 +1229,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
         ],
         default: "false",
       },
+
     ],
     category: "Jokers",
   },
@@ -1190,6 +1248,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
           { value: "random", label: "Random Joker" },
           { value: "self", label: "This Joker" },
           { value: "position", label: "By Position" },
+          { value: "variable", label: "Joker Variable" },
         ],
         default: "all",
       },
@@ -1208,6 +1267,16 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
         showWhen: {
           parameter: "selection_method",
           values: ["position"],
+        },
+      },
+      {
+        id: "joker_var",
+        type: "select",
+        label: "Joker Variable",
+        options: [],
+        showWhen: {
+          parameter: "selection_method",
+          values: ["variable"],
         },
       },
       {
@@ -1908,7 +1977,7 @@ export const EFFECT_TYPES: EffectTypeDefinition[] = [
     applicableTriggers: [...GENERIC_TRIGGERS],
     params: [
       {
-        id: "joker",
+        id: "joker_var",
         type: "select",
         label: "Joker Variable",
         options: [], // Will be populated dynamically with joker variables

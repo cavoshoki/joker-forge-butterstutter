@@ -507,11 +507,11 @@ const ParameterField: React.FC<ParameterFieldProps> = ({
         options = addPokerHandVariablesToOptions(options, joker);
       }
 
-      if (param.id === "text"  && joker) {
+      if (param.id === "text" && joker) {
         options = addTextVariablesToOptions(options, joker);
       }
 
-      if (param.id === "joker"  && joker) {
+      if (param.id === "joker_var" && joker) {
         options = addJokerVariablesToOptions(options, joker);
       }
 
@@ -559,6 +559,8 @@ const ParameterField: React.FC<ParameterFieldProps> = ({
         }
         // Will add more when joker targeting triggers are added
       }
+
+
 
       return (
         <InputDropdown
