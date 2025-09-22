@@ -4,12 +4,14 @@ import type { Effect } from "../../../ruleBuilder/types";
 export const generateCreateJokerReturn = (
   effect: Effect,
   triggerType: string,
-  modprefix: string
+  modprefix: string,
 ): EffectReturn => {
   const jokerType = (effect.params?.joker_type as string) || "random";
   const rarity = (effect.params?.rarity as string) || "random";
-  const jokerKey = (effect.params?.joker_key as string) || "";
   const pool = (effect.params?.pool as string) || "";
+
+  const jokerKey = (effect.params?.joker_key as string) || "";
+  const variableValue = (effect.params?.joker_var as string) || "";
   const edition = (effect.params?.edition as string) || "none";
   const customMessage = effect.customMessage;
   const sticker = (effect.params?.sticker as string) || "none";
@@ -17,6 +19,7 @@ export const generateCreateJokerReturn = (
 
   const scoringTriggers = ["hand_played", "card_scored"];
   const isScoring = scoringTriggers.includes(triggerType);
+
   const isNegative = edition === "e_negative";
   const hasSticker = sticker !== "none";
   const ignoreSlots = ignoreSlotsParam === "ignore";
@@ -34,18 +37,22 @@ export const generateCreateJokerReturn = (
     cardParams.push(`set = 'Joker'`);
   }
 
-  if (jokerType === "specific" && normalizedJokerKey) {
-    cardParams.push(`key = '${normalizedJokerKey}'`);
-  } else if (rarity !== "random" && (!pool || !pool.trim())) {
+  if ((jokerType === "specific" || jokerType === "variable") && normalizedJokerKey) {
+    cardParams.push(`key = ${
+      jokerType == "variable" ? `card.ability.extra.${variableValue}`: `'${normalizedJokerKey}'`}`);
+  } 
+  else if (rarity !== "random" && (!pool || !pool.trim())) {
     const rarityMap: Record<string, string> = {
       common: "Common",
       uncommon: "Uncommon",
       rare: "Rare",
       legendary: "Legendary",
     };
+
     const isVanillaRarity = Object.keys(rarityMap).includes(
       rarity.toLowerCase()
     );
+
     const finalRarity = isVanillaRarity
       ? rarityMap[rarity.toLowerCase()]
       : modprefix
@@ -53,6 +60,7 @@ export const generateCreateJokerReturn = (
       : rarity;
     cardParams.push(`rarity = '${finalRarity}'`);
   }
+
   let slotLimitCode: string;
   if (isNegative || ignoreSlots) {
     slotLimitCode = "local created_joker = true";
@@ -66,12 +74,19 @@ export const generateCreateJokerReturn = (
   const cardCreationCode = `local joker_card = SMODS.add_card({ ${cardParams.join(
     ", "
   )} })`;
+
   const editionCode =
     edition !== "none" ? `joker_card:set_edition("${edition}", true)` : ``;
 
   const stickerCode = hasSticker
     ? `joker_card:add_sticker('${sticker}', true)`
     : "";
+  
+  const editCardCode = editionCode !== "" || stickerCode !== "" ? `
+                          if joker_card then
+                              ${editionCode}
+                              ${stickerCode}
+                          end` : "";
 
   if (isScoring) {
     return {
@@ -80,10 +95,7 @@ export const generateCreateJokerReturn = (
                   G.E_MANAGER:add_event(Event({
                       func = function()
                           ${cardCreationCode}
-                          if joker_card then
-                              ${editionCode}
-                              ${stickerCode}
-                          end
+                          ${editCardCode}
                           ${
                             !(isNegative || ignoreSlots)
                               ? "G.GAME.joker_buffer = 0"
@@ -106,10 +118,7 @@ export const generateCreateJokerReturn = (
             G.E_MANAGER:add_event(Event({
                 func = function()
                     ${cardCreationCode}
-                    if joker_card then
-                        ${editionCode}
-                        ${stickerCode}
-                    end
+                    ${editCardCode}
                     ${
                       !(isNegative || ignoreSlots)
                         ? "G.GAME.joker_buffer = 0"

@@ -491,31 +491,31 @@ const ParameterField: React.FC<ParameterFieldProps> = ({
         }));
       }
 
-      if (param.id === "num_var" && joker) {
+      if (param.variableTypes?.includes("number") && joker) {
         options = addNumberVariablesToOptions(options, joker);
       }
 
-      if (param.id === "specific_suit" && joker) {
+      if (param.variableTypes?.includes("suit") && joker) {
         options = addSuitVariablesToOptions(options, joker);
       }
 
-      if (param.id === "specific_rank" && joker) {
+      if (param.variableTypes?.includes("rank") && joker) {
         options = addRankVariablesToOptions(options, joker);
       }
 
-      if (param.id === "value" && param.label === "Hand Type" && joker) {
+      if (param.variableTypes?.includes("poker_hand") && joker) {
         options = addPokerHandVariablesToOptions(options, joker);
       }
 
-      if (param.id === "text" && joker) {
+      if (param.variableTypes?.includes("text") && joker) {
         options = addTextVariablesToOptions(options, joker);
       }
 
-      if (param.id === "joker_var" && joker) {
+      if (param.variableTypes?.includes("joker") && joker) {
         options = addJokerVariablesToOptions(options, joker);
       }
 
-      if (param.id === "variable_name" && joker && param.label) {
+      if (param.variableTypes?.includes("any") && joker && param.label) {
         if (param.label.includes("Suit")) {
           const suitVariables =
             joker.userVariables?.filter((v) => v.type === "suit") || [];

@@ -148,7 +148,7 @@ export function generateEffectReturnStatement(
   regularEffects: Effect[] = [],
   randomGroups: RandomGroup[] = [],
   loopGroups: LoopGroup[] = [],
-  triggerType: string = "hand_played",
+  triggerType: string,
   modprefix: string,
   jokerKey?: string,
   ruleId?: string,

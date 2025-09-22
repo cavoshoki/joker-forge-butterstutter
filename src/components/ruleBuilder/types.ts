@@ -84,6 +84,7 @@ export interface ConditionParameter {
   max?: number;
   default?: unknown;
   showWhen?: ShowWhenCondition;
+  variableTypes?: Array <string>;
 }
 
 // Interface for condition type definitions
@@ -116,6 +117,7 @@ export interface EffectParameter {
   max?: number;
   default?: unknown;
   showWhen?: ShowWhenCondition;
+  variableTypes?: Array <string>;
 }
 
 // Interface for effect type definitions

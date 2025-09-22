@@ -1,3 +1,4 @@
+
 import type { Rule, Effect } from "../../ruleBuilder/types";
 import type {
   JokerData,
@@ -255,12 +256,6 @@ export const getSuitVariables = (
   return (item.userVariables || []).filter((v) => v.type === "suit");
 };
 
-export const getNumberVariables = (
-  item: JokerData | EnhancementData
-): UserVariable[] => {
-  return (item.userVariables || []).filter((v) => v.type === "number");
-};
-
 export const getRankVariables = (
   item: JokerData | EnhancementData
 ): UserVariable[] => {
@@ -313,19 +308,6 @@ export const parseRankVariable = (
   };
 };
 
-export const addNumberVariablesToOptions = (
-  baseOptions: Array<{ value: string; label: string }>,
-  item: JokerData | EnhancementData
-): Array<{ value: string; label: string }> => {
-  const suitVariables = getNumberVariables(item);
-  const variableOptions = suitVariables.map((variable) => ({
-    value: variable.name,
-    label: `${variable.name} (number variable)`,
-  }));
-
-  return [...baseOptions, ...variableOptions];
-};
-
 export const addSuitVariablesToOptions = (
   baseOptions: Array<{ value: string; label: string }>,
   item: JokerData | EnhancementData
@@ -366,18 +348,6 @@ export const getPokerHandVariables = (
   return (item.userVariables || []).filter((v) => v.type === "pokerhand");
 };
 
-export const getTextVariables = (
-  item: JokerData | EnhancementData
-): UserVariable[] => {
-  return (item.userVariables || []).filter((v) => v.type === "text");
-};
-
-export const getJokerVariables = (
-  item: JokerData | EnhancementData
-): UserVariable[] => {
-  return (item.userVariables || []).filter((v) => v.type === "joker");
-};
-
 export const parsePokerHandVariable = (
   value: unknown,
   item?: JokerData | EnhancementData
@@ -401,17 +371,29 @@ export const parsePokerHandVariable = (
   };
 };
 
-export const addPokerHandVariablesToOptions = (
+export const getNumberVariables = (
+  item: JokerData | EnhancementData
+): UserVariable[] => {
+  return (item.userVariables || []).filter((v) => v.type === "number");
+};
+
+export const addNumberVariablesToOptions = (
   baseOptions: Array<{ value: string; label: string }>,
   item: JokerData | EnhancementData
 ): Array<{ value: string; label: string }> => {
-  const pokerHandVariables = getPokerHandVariables(item);
-  const variableOptions = pokerHandVariables.map((variable) => ({
+  const numberVariables = getNumberVariables(item);
+  const variableOptions = numberVariables.map((variable) => ({
     value: variable.name,
-    label: `${variable.name} (poker hand variable)`,
+    label: `${variable.name} (number variable)`,
   }));
 
   return [...baseOptions, ...variableOptions];
+};
+
+export const getTextVariables = (
+  item: JokerData | EnhancementData
+): UserVariable[] => {
+  return (item.userVariables || []).filter((v) => v.type === "text");
 };
 
 export const addTextVariablesToOptions = (
@@ -426,6 +408,27 @@ export const addTextVariablesToOptions = (
 
   return [...baseOptions, ...variableOptions];
 };
+
+
+export const getJokerVariables = (
+  item: JokerData | EnhancementData
+): UserVariable[] => {
+  return (item.userVariables || []).filter((v) => v.type === "joker");
+};
+
+export const addPokerHandVariablesToOptions = (
+  baseOptions: Array<{ value: string; label: string }>,
+  item: JokerData | EnhancementData
+): Array<{ value: string; label: string }> => {
+  const pokerHandVariables = getPokerHandVariables(item);
+  const variableOptions = pokerHandVariables.map((variable) => ({
+    value: variable.name,
+    label: `${variable.name} (poker hand variable)`,
+  }));
+
+  return [...baseOptions, ...variableOptions];
+};
+
 
 export const addJokerVariablesToOptions = (
   baseOptions: Array<{ value: string; label: string }>,
@@ -790,7 +793,7 @@ export const getVariableUsageDetails = (
 };
 
 export const getAllVariables = (
-  item: JokerData | ConsumableData | EnhancementData | SealData | EditionData
+  item: JokerData | ConsumableData | EnhancementData
 ): UserVariable[] => {
   // For jokers and enhancements, get user variables if they exist
   const userVars = (item as JokerData | EnhancementData).userVariables || [];
